@@ -37,15 +37,18 @@ class BooksApp extends React.Component {
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-               <div>
+              <div>
                   {
-                     this.state.books.length >0 && (
-                        this.shelfNames.map((name, i) => (
-                           <Bookshelf key={i} bookList={this.state.books} shelfName={name}/>
-                        ))
-                     )
+//                     this.state.books.length >0 && (
+//                        this.shelfNames.map((name, i) => (
+//                           <Bookshelf key={i} bookList={this.state.books} shelfName={name}/>
+//                        ))
+//                     )
                   }
-               </div>
+               <Bookshelf bookList={this.state.books} shelfName="currentlyReading"/>
+                <Bookshelf bookList={this.state.books} shelfName="wantToRead"/>
+                <Bookshelf bookList={this.state.books} shelfName="read"/>
+              </div>
             </div>
             <div className="open-search">
                <Link to='/search'>Add A Book</Link>
