@@ -3,7 +3,7 @@ import BookActions from './BookActions.js';
 class Book extends Component{
    
    render(){
-      const {bookObj} = this.props;
+      const {bookObj, updateShelf} = this.props;
       const thumbnail = bookObj.imageLinks.smallThumbnail;
       const authors = bookObj.authors.length >1 ? bookObj.authors.join(', ') : bookObj.authors[0];
       const title = bookObj.title;
@@ -14,7 +14,7 @@ class Book extends Component{
             <div className="book-top">
                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("'+ thumbnail +'")' 
                }}></div>
-               <BookActions bookObj={ bookObj } />
+               <BookActions bookObj={ bookObj } updateShelf={ updateShelf  } />
             </div>
             <div className="book-title">{ title }</div>
             <div className="book-authors">{ authors }</div>

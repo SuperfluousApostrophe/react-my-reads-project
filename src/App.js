@@ -7,6 +7,11 @@ import './App.css';
 
 
 class BooksApp extends React.Component {
+   constructor(props){
+      super(props);
+      
+      this.updateBookshelfLocation = this.updateBookshelfLocation.bind(this);
+   }
    state = {
       books:[]
    };
@@ -27,6 +32,23 @@ class BooksApp extends React.Component {
    componentDidMount(){
       this.retrieveBooks();
    };
+   updateBookshelfLocation(evt, book){
+      let newShelf = evt.target.value;
+      console.log(newShelf);
+      console.log(book);
+//      console.log(JSON.stringify(this.state.books));
+      let updatedBookList = this.state.books.map(
+         (currBook) => {
+            if(currBook.id === book.id){
+               currBook.shelf = newShelf;
+            }
+         }
+      );
+      
+      this.setState( { books:updatedBookList } );
+      console.log(this.state.books[0]);
+//      book.shelf = newShelf; 
+   };
    buildBookCase = function(){
       let bookcase = [];
       for(let [key, value] of this.shelves){
@@ -34,7 +56,10 @@ class BooksApp extends React.Component {
             key={key} 
             shelfDetails={value} 
             bookList={this.state.books} 
-            shelfName={key}/>);
+            shelfName={key} 
+            updateShelf={this.updateBookshelfLocation}
+                    
+         />);
       }
       return bookcase;
    };
@@ -43,7 +68,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
          <Route path='/search' render={ ()=>(
-            <SearchForm/>
+            <SearchForm state={this.state}/>
           )} />       
          <Route exact path='/' render={ ()=>(
           <div className="list-books">

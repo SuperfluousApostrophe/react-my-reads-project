@@ -3,10 +3,11 @@ import Book from './Book.js';
 
 class Bookshelf extends Component{
    render(){
-      const {shelfName, bookList, shelfDetails} = this.props;
+      const {shelfName, bookList, shelfDetails, updateShelf} = this.props;
       let shelf = shelfDetails;//this.shelves.get(shelfName);
       let booksOnShelf = [];
       if(bookList){
+         console.log(bookList);
          booksOnShelf = bookList.filter(book => book.shelf === shelfName);
       }
       return(
@@ -15,7 +16,7 @@ class Bookshelf extends Component{
             <div className="bookshelf-books">
                <ol className="books-grid">
                   { booksOnShelf.map(book => (
-                     <li key={book.id}><Book bookObj={book}/></li>    
+                     <li key={book.id}><Book bookObj={book} updateShelf={updateShelf}/></li>    
                   ))}
               </ol>
             </div>
