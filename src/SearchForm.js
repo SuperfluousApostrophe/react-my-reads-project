@@ -1,15 +1,20 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
+import * as BooksAPI from './BooksAPI';
+import SearchResultDisplay from './SearchResultDisplay';
 
 class SearchForm extends Component{
-   
+   state = {
+      query: ''
+   }
+   //state.query should be updated with the last queried item
    render(){
      
       return(
          <div className="search-books">
             <div className="search-books-bar">
                <Link className="close-search" to='/'>Close</Link>   
-              <div className="search-books-input-wrapper">
+               <div className="search-books-input-wrapper">
                 {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
                   You can find these search terms here:
@@ -22,9 +27,7 @@ class SearchForm extends Component{
 
               </div>
             </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
+            <SearchResultDisplay searchResults=''/>
           </div>
       );
    };
