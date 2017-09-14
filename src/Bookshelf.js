@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import Book from './Book.js'
+import React, {Component} from 'react';
+import Book from './Book.js';
 
 class Bookshelf extends Component{
    shelves = new Map([
@@ -27,10 +27,8 @@ class Bookshelf extends Component{
               </ol>
             </div>
           </div>
-      
-      
       );
    };
    
 };
-export default Bookshelf
+export default Bookshelf; 

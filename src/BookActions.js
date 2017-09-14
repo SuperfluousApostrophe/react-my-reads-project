@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 
 class BookActions extends Component{
    
@@ -15,6 +15,6 @@ class BookActions extends Component{
             </select>
           </div>
       );
-  } 
+  };
 };
-export default BookActions
+export default BookActions;

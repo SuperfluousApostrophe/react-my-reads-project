@@ -1,5 +1,5 @@
-import React, {Component} from 'react'
-import BookActions from './BookActions.js'
+import React, {Component} from 'react';
+import BookActions from './BookActions.js';
 class Book extends Component{
    
    render(){
@@ -17,4 +17,4 @@ class Book extends Component{
       );
    };
 };
-export default Book
+export default Book;
