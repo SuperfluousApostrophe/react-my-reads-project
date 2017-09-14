@@ -11,8 +11,11 @@ class BooksApp extends React.Component {
       books:[]
    };
    //This could be further abstracted if list of shelves/shelf metadata could be pulled from DB
-   shelfNames = ["currentlyReading", "wantToRead", "read"];
-   
+   shelves = new Map([
+      ['currentlyReading',{title:'Currently Reading'}],
+      ['wantToRead',{title:'Want To Read'}],
+      ['read',{title:'Read'}]
+   ]);
    retrieveBooks = function(){
       BooksAPI.getAll()
          .then(books => {
@@ -23,6 +26,17 @@ class BooksApp extends React.Component {
    };
    componentDidMount(){
       this.retrieveBooks();
+   };
+   buildBookCase = function(){
+      let bookcase = [];
+      for(let [key, value] of this.shelves){
+         bookcase.push(<Bookshelf 
+            key={key} 
+            shelfDetails={value} 
+            bookList={this.state.books} 
+            shelfName={key}/>);
+      }
+      return bookcase;
    };
    
   render() {
@@ -38,13 +52,7 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
                <div>
-                  {
-                     this.state.books.length >0 && (
-                        this.shelfNames.map((name, i) => (
-                           <Bookshelf key={i} bookList={this.state.books} shelfName={name}/>
-                        ))
-                     )
-                  }
+                  { this.state.books.length >0 && (this.buildBookCase()) }
                </div>
             </div>
             <div className="open-search">

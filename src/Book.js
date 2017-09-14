@@ -4,9 +4,6 @@ class Book extends Component{
    
    render(){
       const {bookObj} = this.props;
-      
-      console.log(bookObj);
-      
       const thumbnail = bookObj.imageLinks.smallThumbnail;
       const authors = bookObj.authors.length >1 ? bookObj.authors.join(', ') : bookObj.authors[0];
       const title = bookObj.title;
