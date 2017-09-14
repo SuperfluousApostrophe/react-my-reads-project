@@ -7,6 +7,10 @@ class SearchForm extends Component{
    state = {
       query: ''
    }
+   updateQuery = (query) => {
+      this.setState({query:query.trim()});
+      console.log(this.state.query);
+   };
    //state.query should be updated with the last queried item
    render(){
      
@@ -23,8 +27,9 @@ class SearchForm extends Component{
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
-
+                <input type="text" 
+                  placeholder="Search by title or author" 
+                  onChange={(event) => this.updateQuery(event.target.value)}/>
               </div>
             </div>
             <SearchResultDisplay searchResults=''/>
