@@ -25,7 +25,7 @@ class BooksApp extends React.Component {
       BooksAPI.getAll()
          .then(books => {
             this.setState( {books:books} );
-            console.log(this.state.books);
+//            console.log(this.state.books);
          })
          .catch(err=>console.log(err));
    };
@@ -34,19 +34,22 @@ class BooksApp extends React.Component {
    };
    updateBookshelfLocation(evt, book){
       let newShelf = evt.target.value;
-      console.log(newShelf);
-      console.log(book);
-//      console.log(JSON.stringify(this.state.books));
+//      console.log(`Moving ${book.title} to ${newShelf}`);
       let updatedBookList = this.state.books.map(
          (currBook) => {
             if(currBook.id === book.id){
                currBook.shelf = newShelf;
+               BooksAPI.update({id:book.id}, newShelf).then(
+                  data=>{
+//                     console.log(data);
+               });
             }
+            return currBook;
          }
       );
-      
+//      console.log("updated Booklist", updatedBookList);
       this.setState( { books:updatedBookList } );
-      console.log(this.state.books[0]);
+//      console.log("First book:",this.state.books[0]);
 //      book.shelf = newShelf; 
    };
    buildBookCase = function(){
