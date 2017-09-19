@@ -21,20 +21,31 @@ class BooksApp extends React.Component {
       ['wantToRead',{title:'Want To Read'}],
       ['read',{title:'Read'}]
    ]);
+   //TODO: Refactor this method to convert the results into a 
+   //map for easier processing later on
    retrieveBooks = function(){
       BooksAPI.getAll()
          .then(books => {
             this.setState( {books:books} );
-//            console.log(this.state.books);
-         })
-         .catch(err=>console.log(err));
+         }).catch(err=>console.log(err));
    };
    componentDidMount(){
       this.retrieveBooks();
    };
+   
+   //TODO: refactor this method to affect a map directly
    updateBookshelfLocation(evt, book){
       let newShelf = evt.target.value;
 //      console.log(`Moving ${book.title} to ${newShelf}`);
+
+//      let currBook = this.state.books.filter((tmpBook, i) => tmpBook.id === book.id);
+//      if(currBook.length>0){
+//         currBook[0].shelf = newShelf;
+//         BooksAPI.update({id:book.id}, newShelf).then(
+//            data=>{
+////                     console.log(data);
+//         });
+//      }
       let updatedBookList = this.state.books.map(
          (currBook) => {
             if(currBook.id === book.id){
@@ -50,7 +61,6 @@ class BooksApp extends React.Component {
 //      console.log("updated Booklist", updatedBookList);
       this.setState( { books:updatedBookList } );
 //      console.log("First book:",this.state.books[0]);
-//      book.shelf = newShelf; 
    };
    buildBookCase = function(){
       let bookcase = [];
@@ -71,7 +81,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
          <Route path='/search' render={ ()=>(
-            <SearchForm state={this.state}/>
+            <SearchForm state={this.state} updateShelf={this.updateBookshelfLocation} />
           )} />       
          <Route exact path='/' render={ ()=>(
           <div className="list-books">

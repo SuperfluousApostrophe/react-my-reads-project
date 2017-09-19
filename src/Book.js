@@ -8,6 +8,7 @@ class Book extends Component{
       const authors = bookObj.authors.length >1 ? bookObj.authors.join(', ') : bookObj.authors[0];
       const title = bookObj.title;
       
+      console.log(bookObj);
       
       return(
          <div className="book">

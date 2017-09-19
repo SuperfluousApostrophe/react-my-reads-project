@@ -5,15 +5,29 @@ import SearchResultDisplay from './SearchResultDisplay';
 
 class SearchForm extends Component{
    state = {
-      query: ''
+      query: '',
+      searchResults: []
    }
-   updateQuery = (query) => {
-      this.setState({query:query.trim()});
-      console.log(this.state.query);
-   };
+   errorMsg = null; 
+   resultsToReturn=20;
+   searchQuery = (queryString) => {
+      console.log(queryString);
+      if(queryString.trim().length>=3){
+         BooksAPI.search(queryString.trim(), this.resultsToReturn).then(data=>{
+            console.log(data);
+            if(!data.error){
+               this.setState({searchResults:data});
+               this.errorMsg = null;
+            } else { 
+               this.errorMsg = "No Books Found";
+            }
+            console.log(this.state.searchResults);
+         });
+      }
+   }
    //state.query should be updated with the last queried item
    render(){
-     
+     const {parentState, updateShelf} = this.props; 
       return(
          <div className="search-books">
             <div className="search-books-bar">
@@ -29,10 +43,10 @@ class SearchForm extends Component{
                 */}
                 <input type="text" 
                   placeholder="Search by title or author" 
-                  onChange={(event) => this.updateQuery(event.target.value)}/>
+                  onChange={(event) => this.searchQuery(event.target.value)}/>
               </div>
             </div>
-            <SearchResultDisplay searchResults=''/>
+            <SearchResultDisplay updateShelf={updateShelf} searchResults={this.state.searchResults}/>
           </div>
       );
    };
