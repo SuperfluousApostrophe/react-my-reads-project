@@ -5,7 +5,6 @@ import SearchResultDisplay from './SearchResultDisplay';
 
 class SearchForm extends Component{
    state = {
-      query: '',
       searchResults: []
    }
    errorMsg = null; 
@@ -23,7 +22,6 @@ class SearchForm extends Component{
          });
       }
    }
-   //state.query should be updated with the last queried item
    render(){
      const {globalState, updateShelf} = this.props; 
       return(

@@ -21,7 +21,7 @@ class BooksApp extends React.Component {
       ['wantToRead',{title:'Want To Read'}],
       ['read',{title:'Read'}]
    ]);
-   /*
+   /**
     * Call BooksAPI to get all saved books 
     */
    retrieveBooks = function(){
@@ -30,8 +30,10 @@ class BooksApp extends React.Component {
             this.setState( {books:this.mapBooks(books)} );
          }).catch(err=>console.log(err));
    };
-   /*
+   /**
     * Turn the response array into a map for super easy updating
+    * @rawBookList {array} Booklist array from BooksAPI
+    * @returns {Map}
     */
    mapBooks = function(rawBookList){
       let bookMap = new Map();
@@ -41,16 +43,19 @@ class BooksApp extends React.Component {
       }
       return bookMap;
    };
-   /*
+   /**
     * Once the component is mounted, grab our books.
     */
    componentDidMount(){
       this.retrieveBooks();
    };
    
-   /*
+   /**
     * Changes the shelf property of the passed book 
     * Obj & updates the new bookshelf on the server
+    * 
+    * @evt {Event} Event from shelf selevtion
+    * @book {obj} Book Object
     */
    updateBookshelfLocation(evt, book){
       let newShelf = evt.target.value;
@@ -63,8 +68,9 @@ class BooksApp extends React.Component {
             //TODO: add success/fail message
          });
    };
-   /*
+   /**
     * Constructs the bookshelf components for each type of bookshelf 
+    * @returns {array}
     */
    buildBookCase = function(){
       let bookcase = [];
