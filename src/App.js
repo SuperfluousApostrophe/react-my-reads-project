@@ -21,47 +21,51 @@ class BooksApp extends React.Component {
       ['wantToRead',{title:'Want To Read'}],
       ['read',{title:'Read'}]
    ]);
-   //TODO: Refactor this method to convert the results into a 
-   //map for easier processing later on
+   /*
+    * Call BooksAPI to get all saved books 
+    */
    retrieveBooks = function(){
       BooksAPI.getAll()
          .then(books => {
-            this.setState( {books:books} );
+            this.setState( {books:this.mapBooks(books)} );
          }).catch(err=>console.log(err));
    };
+   /*
+    * Turn the response array into a map for super easy updating
+    */
+   mapBooks = function(rawBookList){
+      let bookMap = new Map();
+      for(let i=0;i<rawBookList.length;i++){
+        let book = rawBookList[i];
+         bookMap.set(book.id, book);
+      }
+      return bookMap;
+   };
+   /*
+    * Once the component is mounted, grab our books.
+    */
    componentDidMount(){
       this.retrieveBooks();
    };
    
-   //TODO: refactor this method to affect a map directly
+   /*
+    * Changes the shelf property of the passed book 
+    * Obj & updates the new bookshelf on the server
+    */
    updateBookshelfLocation(evt, book){
       let newShelf = evt.target.value;
-//      console.log(`Moving ${book.title} to ${newShelf}`);
-
-//      let currBook = this.state.books.filter((tmpBook, i) => tmpBook.id === book.id);
-//      if(currBook.length>0){
-//         currBook[0].shelf = newShelf;
-//         BooksAPI.update({id:book.id}, newShelf).then(
-//            data=>{
-////                     console.log(data);
-//         });
-//      }
-      let updatedBookList = this.state.books.map(
-         (currBook) => {
-            if(currBook.id === book.id){
-               currBook.shelf = newShelf;
-               BooksAPI.update({id:book.id}, newShelf).then(
-                  data=>{
-//                     console.log(data);
-               });
-            }
-            return currBook;
-         }
-      );
-//      console.log("updated Booklist", updatedBookList);
-      this.setState( { books:updatedBookList } );
-//      console.log("First book:",this.state.books[0]);
+      let bookList = this.state.books;
+      book.shelf = newShelf;
+      bookList.set(book.id, book);
+       this.setState( { books:bookList } );
+       BooksAPI.update({id:book.id}, newShelf).then(
+         data=>{
+            //TODO: add success/fail message
+         });
    };
+   /*
+    * Constructs the bookshelf components for each type of bookshelf 
+    */
    buildBookCase = function(){
       let bookcase = [];
       for(let [key, value] of this.shelves){
@@ -71,17 +75,16 @@ class BooksApp extends React.Component {
             bookList={this.state.books} 
             shelfName={key} 
             updateShelf={this.updateBookshelfLocation}
-                    
          />);
       }
       return bookcase;
    };
-   
-  render() {
+
+   render() {
     return (
       <div className="app">
          <Route path='/search' render={ ()=>(
-            <SearchForm state={this.state} updateShelf={this.updateBookshelfLocation} />
+            <SearchForm globalState={this.state} updateShelf={this.updateBookshelfLocation} />
           )} />       
          <Route exact path='/' render={ ()=>(
           <div className="list-books">
@@ -90,7 +93,7 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
                <div>
-                  { this.state.books.length >0 && (this.buildBookCase()) }
+                  { this.state.books.size >0 && (this.buildBookCase()) }
                </div>
             </div>
             <div className="open-search">
@@ -102,5 +105,4 @@ class BooksApp extends React.Component {
     );
   };
 };
-
 export default BooksApp;

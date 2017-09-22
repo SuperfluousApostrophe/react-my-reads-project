@@ -6,9 +6,13 @@ class Bookshelf extends Component{
       const {shelfName, bookList, shelfDetails, updateShelf} = this.props;
       let shelf = shelfDetails;//this.shelves.get(shelfName);
       let booksOnShelf = [];
+      //Make sure the books are on the correct shelf for the rendering section
       if(bookList){
-         console.log(bookList);
-         booksOnShelf = bookList.filter(book => book.shelf === shelfName);
+         for(let[key, value] of bookList){
+            if(value.shelf === shelfName){
+               booksOnShelf.push(value);
+            }
+         }
       }
       return(
          <div className="bookshelf">
@@ -16,13 +20,12 @@ class Bookshelf extends Component{
             <div className="bookshelf-books">
                <ol className="books-grid">
                   { booksOnShelf.map(book => (
-                     <li key={book.id}><Book bookObj={book} updateShelf={updateShelf}/></li>    
+                     <li key={book.id}><Book bookList={bookList} bookObj={book} updateShelf={updateShelf}/></li>    
                   ))}
               </ol>
             </div>
           </div>
       );
    };
-   
 };
 export default Bookshelf; 

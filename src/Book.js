@@ -3,13 +3,19 @@ import BookActions from './BookActions.js';
 class Book extends Component{
    
    render(){
-      const {bookObj, updateShelf} = this.props;
+      const {bookList, bookObj, updateShelf} = this.props;
       const thumbnail = bookObj.imageLinks.smallThumbnail;
       const authors = bookObj.authors.length >1 ? bookObj.authors.join(', ') : bookObj.authors[0];
       const title = bookObj.title;
       
-      console.log(bookObj);
-      
+      //If we are passed a booklist && we have this book, set the 
+      //shelf property to the global one.
+      if(bookList !== undefined){
+         if(bookList.has(bookObj.id)){
+            bookObj.shelf = bookList.get(bookObj.id).shelf;
+         }
+      }
+
       return(
          <div className="book">
             <div className="book-top">
