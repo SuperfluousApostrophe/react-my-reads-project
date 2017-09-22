@@ -34,6 +34,7 @@ To get started right away:
     ├── index.js # You should not need to modify this file. It is used for DOM rendering only.
     ├── SearchForm.js # Renders the search form
     └── SearchResultDisplay.js # Renders the search results.
+```
 
 ## Backend Server
 
